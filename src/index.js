@@ -10,7 +10,7 @@ import store from './store';
 
 // @styles
 import 'normalize.css';
-import './index.css';
+import './index.scss';
 
 import * as serviceWorker from './serviceWorker';
 

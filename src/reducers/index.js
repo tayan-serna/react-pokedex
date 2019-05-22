@@ -3,9 +3,9 @@
 import { combineReducers } from 'redux';
 
 import users from './usersReducer';
-import pokemos from './pokemonsReducer';
+import pokemons from './pokemonsReducer';
 
 export default combineReducers({
-  pokemos,
+  pokemons,
   users
 });
