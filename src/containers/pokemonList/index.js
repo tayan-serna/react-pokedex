@@ -9,7 +9,7 @@ import {
 } from 'react-md';
 
 // @actions
-import { getPokemons, getPokemonById } from '../../actions/pokemons';
+import { getPokemons } from '../../actions/pokemons';
 
 class PokemonList extends Component {
   componentDidMount() {
@@ -18,14 +18,16 @@ class PokemonList extends Component {
       getPokemons();
     }
   }
+
   render() {
-    const { pokemons, getPokemonById } = this.props;
+    const { history, pokemons } = this.props;
+    console.log(this.props);
     return (
       <div>
         <ul>
           {
             pokemons.pokemonList.map(pokemon => (
-              <Card key={pokemon.id} onClick={() => getPokemonById(pokemon.id)}>
+              <Card key={pokemon.id} onClick={() => { history.push(`pokemon/${pokemon.id}`)}}>
                 <CardTitle title={pokemon.name} />
                 <CardText>
                   <img alt={pokemon.name} src={pokemon.sprites.front_default} />
@@ -49,8 +51,7 @@ const mapStateToProps = ({ pokemons }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getPokemons,
-  getPokemonById
+  getPokemons
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PokemonList);
