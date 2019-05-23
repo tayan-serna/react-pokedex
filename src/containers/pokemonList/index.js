@@ -14,7 +14,7 @@ import { getPokemons } from '../../actions/pokemons';
 class PokemonList extends Component {
   componentDidMount() {
     const { pokemons, getPokemons } = this.props;
-    if (!pokemons.length) {
+    if (!pokemons.pokemonList.length) {
       getPokemons();
     }
   }
