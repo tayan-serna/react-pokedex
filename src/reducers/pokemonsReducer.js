@@ -10,7 +10,8 @@ const initialState = {
   pokemon: {
     loading: false,
     error: false,
-    data: {}
+    data: {},
+    evolution_chain: {}
   }
 };
 
@@ -30,8 +31,9 @@ function pokemonsReducer (state = initialState, action) {
         pokemon: {
           ...state.pokemon,
           data: {},
-          loading: true,
-          error: false
+          error: false,
+          evolution_chain: {},
+          loading: true
         }
       }
     case GET_POKEMON_BY_ID_SUCCESS:
@@ -40,8 +42,9 @@ function pokemonsReducer (state = initialState, action) {
         pokemon: {
           ...state.pokemon,
           data: action.payload.pokemon,
-          loading: false,
-          error: false
+          error: false,
+          evolution_chain: action.payload.evolution_chain,
+          loading: false
         }
       }
     case GET_POKEMON_BY_ID_FAILURE:
@@ -50,8 +53,9 @@ function pokemonsReducer (state = initialState, action) {
         pokemon: {
           ...state.pokemon,
           data: {},
-          loading: false,
-          error: true
+          error: true,
+          evolution_chain: {},
+          loading: false
         }
       }
     default:
