@@ -40,18 +40,15 @@ export const getPokemonById = id => dispatch => {
     type: GET_POKEMON_BY_ID_REQUEST
   });
 
-  axios
-    .get(
-      `https://pokeapi.co/api/v2/pokemon/${id}`,
-    ).then(({ data: pokemon }) => {
-      dispatch({
-        type: GET_POKEMON_BY_ID_SUCCESS,
-        payload: { pokemon }
-      });
-    })
-    .catch(() => {
-      dispatch({
-      type: GET_POKEMON_BY_ID_FAILURE
-    });
-    });
-}
+  axios.all([
+    axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`),
+    axios.get(`https://pokeapi.co/api/v2/evolution-chain/${id}`)
+  ])
+  .then((results) => {
+    console.log(results)
+  })
+  .catch(() => {
+    dispatch({
+    type: GET_POKEMON_BY_ID_FAILURE
+  })
+})}
