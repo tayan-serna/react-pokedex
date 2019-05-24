@@ -3,6 +3,9 @@ import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+// @components
+import Menu from '../menu';
+
 // @actions
 import { getPokemonById } from '../../actions/pokemons';
 
@@ -17,7 +20,10 @@ const PokemonDetail = (props) => {
   let hasPokemonChanged = JSON.stringify(ref.current) !== JSON.stringify(props.pokemon);
 
   useEffect(() => {
-     if (hasPokemonChanged) {
+    if (!props.loggedUser.logged) {
+      return props.history.push('/');
+    }
+    if (hasPokemonChanged) {
       ref.current = { ...props.pokemon };
       setPokemon({
         ...props.pokemon
@@ -58,9 +64,33 @@ const PokemonDetail = (props) => {
 
   return (
     <div>
+      <Menu />
       <div>
-        {pokemon.data.name}
-        <img alt={pokemon.data.name} src={pokemon.data.sprites.front_default} />
+        <h2>
+          {pokemon.data.name} #{pokemon.data.id}
+        </h2>
+        <img
+          alt={pokemon.data.name}
+          src={pokemon.data.sprites.front_default}
+        />
+        <div>
+          <strong>Height: </strong> {pokemon.data.height}
+        </div>
+        <div>
+          <strong>Weight: </strong> {pokemon.data.weight}
+        </div>
+        <div>
+          <strong>Abilities: </strong>
+          <ul>
+            {
+              pokemon.data.abilities.map(ability => (
+                <li key={ability.slot}>
+                  {ability.ability.name}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
         {pokemon.data.types.map(type => (
           <span key={type.slot}>
             {type.type.name}
@@ -86,8 +116,9 @@ const PokemonDetail = (props) => {
   )
 };
 
-const mapStateToProps = ({ pokemons }) => ({
-  pokemon: pokemons.pokemon
+const mapStateToProps = ({ pokemons, users }) => ({
+  pokemon: pokemons.pokemon,
+  loggedUser: users.loggedInUser
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

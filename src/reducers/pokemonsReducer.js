@@ -2,11 +2,13 @@ import {
   GET_POKEMONS,
   GET_POKEMON_BY_ID_REQUEST,
   GET_POKEMON_BY_ID_SUCCESS,
-  GET_POKEMON_BY_ID_FAILURE
+  GET_POKEMON_BY_ID_FAILURE,
+  FILTER_POKEMON
 } from '../constants';
 
 const initialState = {
   pokemonList: [],
+  pokemonListFiltered: [],
   pokemon: {
     loading: false,
     error: false,
@@ -21,6 +23,10 @@ function pokemonsReducer (state = initialState, action) {
       return {
         ...state,
         pokemonList: [
+          ...state.pokemonList,
+          ...action.payload
+        ],
+        pokemonListFiltered: [
           ...state.pokemonList,
           ...action.payload
         ]
@@ -57,6 +63,14 @@ function pokemonsReducer (state = initialState, action) {
           evolution_chain: {},
           loading: false
         }
+      }
+    case FILTER_POKEMON:
+      return {
+        ...state,
+        pokemonListFiltered: state.pokemonList.filter(pokemon => {
+          const regex = new RegExp(action.payload, 'gi');
+          return regex.test(pokemon.name);
+        })
       }
     default:
       return state;

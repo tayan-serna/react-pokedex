@@ -5,28 +5,52 @@ import { bindActionCreators } from 'redux';
 import {
   Card,
   CardTitle,
-  CardText
+  CardText,
+  TextField
 } from 'react-md';
 
+// @componets
+import Menu from '../menu';
+
 // @actions
-import { getPokemons } from '../../actions/pokemons';
+import {
+  getPokemons,
+  filterPokemons
+} from '../../actions/pokemons';
 
 class PokemonList extends Component {
   componentDidMount() {
-    const { pokemons, getPokemons } = this.props;
+    const { pokemons, getPokemons, loggedUser, history } = this.props;
+    if (!loggedUser.logged) {
+      history.push('/');
+    }
     if (!pokemons.pokemonList.length) {
       getPokemons();
     }
   }
 
+  handleFilter = (value) => {
+    const { filterPokemons } = this.props;
+    filterPokemons(value);
+  }
+
   render() {
     const { history, pokemons } = this.props;
-    console.log(this.props);
     return (
       <div>
+        <Menu />
+        <div>
+          <TextField
+            className="md-cell md-cell--bottom"
+            id="filter"
+            label="search"
+            lineDirection="center"
+            onChange={value => this.handleFilter(value)}
+          />
+        </div>
         <ul>
           {
-            pokemons.pokemonList.map(pokemon => (
+            pokemons.pokemonListFiltered.map(pokemon => (
               <Card key={pokemon.id} onClick={() => { history.push(`pokemon/${pokemon.id}`)}}>
                 <CardTitle title={pokemon.name} />
                 <CardText>
@@ -46,12 +70,14 @@ class PokemonList extends Component {
   }
 }
 
-const mapStateToProps = ({ pokemons }) => ({
-  pokemons
+const mapStateToProps = ({ pokemons, users }) => ({
+  pokemons,
+  loggedUser: users.loggedInUser
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getPokemons
+  getPokemons,
+  filterPokemons
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PokemonList);
