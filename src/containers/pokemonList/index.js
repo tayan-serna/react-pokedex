@@ -40,7 +40,6 @@ class PokemonList extends Component {
 
   handleLoadMore = (page) => {
     const { getPokemons } = this.props;
-    console.log(page);
     getPokemons(page)
   }
 

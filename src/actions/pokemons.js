@@ -8,24 +8,18 @@ import {
   FILTER_POKEMON
 } from '../constants';
 
-const evolveChainTree = async (evolves_to, species) => {
-  const evolutions = [];
-  if (!species.name) { return null };
+const evolveChainTreePromises = (evolves_to, species, promises = []) => {
+  if (!species.name) { return };
   if (!evolves_to.length) {
-    return [{
-      parent: await axios.get(species.url).then(result => result.data),
-      children: null
-    }]
+    promises.push(axios.get(species.url).then(result => result.data))
   }
 
-  evolves_to.forEach(async(evolve) => {
-    evolutions.push({
-      parent: await axios.get(species.url).then(result => result.data),
-      children: await evolveChainTree(evolve.evolves_to, evolve.species)
-    });
+  evolves_to.forEach((evolve) => {
+    promises.push(axios.get(species.url).then(result => result.data))
+    evolveChainTreePromises(evolve.evolves_to, evolve.species, promises)
   });
 
-  return evolutions
+  return promises;
 };
 
 export const getPokemons = page => dispatch => axios
@@ -81,7 +75,7 @@ export const getPokemonById = id => dispatch => {
             }
           }
         }) => {
-            return evolveChainTree(evolves_to, species)
+          return axios.all(evolveChainTreePromises(evolves_to, species))
         })
       )
   ])
@@ -90,7 +84,7 @@ export const getPokemonById = id => dispatch => {
       type: GET_POKEMON_BY_ID_SUCCESS,
       payload: {
         pokemon: pokemonRes.data,
-        evolution_chain: evolutionRes
+        evolution_chain: evolutionRes.filter(pokemon => pokemon.id !== id)
       }
     });
   }))
@@ -98,7 +92,7 @@ export const getPokemonById = id => dispatch => {
     dispatch({
     type: GET_POKEMON_BY_ID_FAILURE
   })
-})}
+})};
 
 export const filterPokemons = value => dispatch => dispatch({
   type: FILTER_POKEMON,

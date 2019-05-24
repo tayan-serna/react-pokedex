@@ -47,16 +47,6 @@ const PokemonDetail = (props) => {
       isLoadPokemon
   ]);
 
-  const getEvolutionChain = (evolution_chain, nodes = []) => {
-    evolution_chain.forEach((evolution) => {
-      nodes.push(evolution.parent);
-      if (evolution.children && evolution.children.length) {
-        getEvolutionChain(evolution.children, nodes)
-      }
-    })
-    return nodes.filter(pokemon => pokemon.id !== parsedId);
-  };
-
   if (pokemon.loading || !pokemon.data.id) {
     return (<div>loading...</div>)
   }
@@ -120,11 +110,11 @@ const PokemonDetail = (props) => {
       </div>
       <div className="pokemon-evolution-container">
         {
-          getEvolutionChain(pokemon.evolution_chain).length
+          pokemon.evolution_chain.length
             ? (
               <Fragment>
                 <h2 className="pokemon-evolution-container__title"> Evolution Chain </h2>
-                {getEvolutionChain(pokemon.evolution_chain).map(pokemon => (
+                {pokemon.evolution_chain.map(pokemon => (
                   <div key={pokemon.id}>{pokemon.name}</div>
                 ))}
               </Fragment>
