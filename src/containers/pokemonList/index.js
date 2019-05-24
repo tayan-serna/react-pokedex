@@ -75,14 +75,16 @@ class PokemonList extends Component {
                     className="pokemon-list-container__pokemon-card-image"
                     src={pokemon.sprites.front_default}
                   />
-                  {pokemon.types.map(type => (
-                    <span
-                      className="pokemon-list-container__pokemon-card-type"
-                      key={type.slot}
-                    >
-                      {type.type.name}
-                    </span>
-                  ))}
+                  <div className="pokemon-list-container__pokemon-card-type-container">
+                    {pokemon.types.map(type => (
+                      <span
+                        className="pokemon-list-container__pokemon-card-type"
+                        key={type.slot}
+                      >
+                        {type.type.name}
+                      </span>
+                    ))}
+                  </div>
                 </CardText>
               </Card>
             ))

@@ -50,6 +50,18 @@
     width: 120px;
   }
 
+  &__pokemon-card-type-container {
+
+  }
+
+  &__pokemon-card-type {
+    margin: $space-separation-little;
+    font-weight: 600;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: $space-separation-little;
+  }
+
   .md-card {
     display: inline-block;
   }
