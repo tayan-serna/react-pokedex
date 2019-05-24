@@ -9,6 +9,9 @@ import Menu from '../menu';
 // @actions
 import { getPokemonById } from '../../actions/pokemons';
 
+// @styles
+import './styles.scss';
+
 const PokemonDetail = (props) => {
   const [pokemon, setPokemon] = useState({
     ...props.pokemon
@@ -63,39 +66,49 @@ const PokemonDetail = (props) => {
   }
 
   return (
-    <div>
+    <section>
       <Menu />
-      <div>
-        <h2>
+      <div className="pokemon-detail-container">
+        <h2 className="pokemon-detail-container__title">
           {pokemon.data.name} #{pokemon.data.id}
         </h2>
-        <img
-          alt={pokemon.data.name}
-          src={pokemon.data.sprites.front_default}
-        />
-        <div>
-          <strong>Height: </strong> {pokemon.data.height}
+        <div className="pokemon-detail-container__image-container">
+          <img
+            alt={pokemon.data.name}
+            className="pokemon-detail-container__image"
+            src={pokemon.data.sprites.front_default}
+          />
         </div>
-        <div>
-          <strong>Weight: </strong> {pokemon.data.weight}
+        <div className="pokemon-detail-container__details">
+          <div className="pokemon-detail-container__details-item">
+            <strong>Height: </strong> {pokemon.data.height}
+          </div>
+          <div className="pokemon-detail-container__details-item">
+            <strong>Weight: </strong> {pokemon.data.weight}
+          </div>
+          <div className="pokemon-detail-container__details-item">
+            <strong>Abilities: </strong>
+            <ul>
+              {
+                pokemon.data.abilities.map(ability => (
+                  <li key={ability.slot}>
+                    {ability.ability.name}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div className="pokemon-detail-container__details-item">
+            {pokemon.data.types.map(type => (
+              <span
+                className="pokemon-detail-container__type"
+                key={type.slot}
+              >
+                {type.type.name}
+              </span>
+            ))}
+          </div>
         </div>
-        <div>
-          <strong>Abilities: </strong>
-          <ul>
-            {
-              pokemon.data.abilities.map(ability => (
-                <li key={ability.slot}>
-                  {ability.ability.name}
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-        {pokemon.data.types.map(type => (
-          <span key={type.slot}>
-            {type.type.name}
-          </span>
-        ))}
       </div>
       <div>
         {
@@ -112,7 +125,7 @@ const PokemonDetail = (props) => {
         }
 
       </div>
-    </div>
+    </section>
   )
 };
 

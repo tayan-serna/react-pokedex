@@ -15,6 +15,7 @@
 
   &__pokemon-card {
     margin: $space-separation;
+    cursor: pointer;
 
     @media (min-width: $mobile-min-width) {
       width: 100%;
@@ -48,10 +49,6 @@
 
   &__pokemon-card-image {
     width: 120px;
-  }
-
-  &__pokemon-card-type-container {
-
   }
 
   &__pokemon-card-type {

@@ -1,0 +1,58 @@
+@import '../../assets/variables.scss';
+
+.pokemon-detail-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: $space-separation-big;
+
+    &__title {
+      text-transform: uppercase;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    &__image-container {
+      border: 1px solid;
+      padding: $space-separation;
+      border-radius: 20px;
+    }
+
+    &__image {
+      width: 120px;
+    }
+
+    &__details {
+      padding-top: $space-separation-big;
+
+      @media (min-width: $mobile-min-width) {
+        width: 100%;
+      }
+  
+      @media (min-width: $tablet-min-width) {
+        width: 70%;
+      }
+    }
+
+    &__details-item {
+      padding: $space-separation;
+      border-top: 2px solid;
+    }
+
+    &__details-item:last-child {
+      border-bottom: 2px solid;
+    }
+
+    &__type {
+      margin: $space-separation-little;
+      font-weight: 600;
+      border: 1px solid;
+      border-radius: 10px;
+      padding: $space-separation-little;
+    }
+
+    .odd {
+      background-color: $color-light-red;
+    }
+}
