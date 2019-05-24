@@ -22,7 +22,7 @@ class PokemonList extends Component {
   componentDidMount() {
     const { pokemons, getPokemons, loggedUser, history } = this.props;
     if (!loggedUser.logged) {
-      history.push('/');
+      // history.push('/');
     }
     if (!pokemons.pokemonList.length) {
       getPokemons();

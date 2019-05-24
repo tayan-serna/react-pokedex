@@ -1,5 +1,5 @@
 // @vendors
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, DialogContainer, TextField } from 'react-md';
@@ -10,6 +10,9 @@ import { validateEmail, validateStrongPass } from '../../utils';
 
 // @actions
 import { logout, editUser } from '../../actions/users';
+
+// @styles
+import './styles.scss';
 
 class Menu extends Component {
   state = {
@@ -105,37 +108,41 @@ class Menu extends Component {
     );
 
     return (
-      <section>
-        <Button
-          icon
-          primary
-          onClick={() => history.goBack()}
-        >
-          chevron_left
-        </Button>
-        <h1>
-          Welcome {loggedUser.name}
-        </h1>
-        <Button
-          icon
-          primary
-          onClick={this.handleClickEdit}
-        >
-          account_circle
-        </Button>
-        <Button
-          icon
-          primary
-          onClick={this.handleLogout}
-        >
-          close
-        </Button>
+      <Fragment>
+        <section className="menu-container">
+          <Button
+            icon
+            primary
+            onClick={() => history.goBack()}
+          >
+            chevron_left
+          </Button>
+          <h1 className="menu-container__title">
+            Welcome {loggedUser.name}
+          </h1>
+          <div>
+            <Button
+              icon
+              primary
+              onClick={this.handleClickEdit}
+            >
+              account_circle
+            </Button>
+            <Button
+              icon
+              primary
+              onClick={this.handleLogout}
+            >
+              close
+            </Button>
+          </div>
+        </section>
         <DialogContainer
-          id="simple-action-dialog"
+          id="edit-profile"
           visible={visible}
           onHide={this.hide}
           actions={actions}
-          title="Your Profile"
+          title="My Profile"
           width={360}
         >
           <div>
@@ -173,7 +180,7 @@ class Menu extends Component {
             />
           </div>
         </DialogContainer>
-      </section>
+      </Fragment>
     );
   }
 }

@@ -1,0 +1,39 @@
+@import '../../assets/variables.scss';
+
+.landing-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  &::after {
+    content: "";
+    background-image: url('../../assets/images/pokeball.png');
+    background-position-x: 200px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.4;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+  }
+
+  &__title {
+    color: $color-black;
+  }
+
+  &__log-in, &__register {
+    width: 70%;
+  }
+
+  &__switch {
+    font-weight: bold;
+    color: $color-red;
+  }
+}

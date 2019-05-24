@@ -21,7 +21,7 @@ const PokemonDetail = (props) => {
 
   useEffect(() => {
     if (!props.loggedUser.logged) {
-      return props.history.push('/');
+      // return props.history.push('/');
     }
     if (hasPokemonChanged) {
       ref.current = { ...props.pokemon };

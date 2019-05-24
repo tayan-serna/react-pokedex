@@ -12,11 +12,14 @@ import { connect } from 'react-redux';
 // @utils
 import { validateEmail, validateStrongPass } from '../../utils';
 
-// æactions
+// @actions
 import {
   registerUser,
   loggin
 } from '../../actions/users';
+
+// @styles
+import './styles.scss';
 
 const initialState = {
   isLogging: true,
@@ -134,9 +137,9 @@ class LandingPage extends Component {
     const { email, password, logginError, emailError } = this.state;
 
     return (
-      <div>
+      <div className="landing-container__log-in">
         <TextField
-          className="md-cell md-cell--bottom"
+          className="landing-container__text-field"
           id="email"
           label="Email"
           error={emailError}
@@ -148,7 +151,7 @@ class LandingPage extends Component {
           value={email}
         />
         <TextField
-          className="md-cell md-cell--bottom"
+          className="landing-container__text-field"
           id="password"
           label="Password"
           lineDirection="center"
@@ -183,9 +186,9 @@ class LandingPage extends Component {
     } = this.state;
 
     return (
-      <div>
+      <div className="landing-container__register">
         <TextField
-          className="md-cell md-cell--bottom"
+          className="landing-container__text-field"
           id="name"
           label="Trainer Name *"
           lineDirection="center"
@@ -193,7 +196,7 @@ class LandingPage extends Component {
           value={name}
         />
         <TextField
-          className="md-cell md-cell--bottom"
+          className="landing-container__text-field"
           id="email"
           label="Email *"
           error={emailError}
@@ -205,7 +208,7 @@ class LandingPage extends Component {
           value={email}
         />
         <TextField
-          className="md-cell md-cell--bottom"
+          className="landing-container__text-field"
           id="password"
           error={weakPass}
           errorText="Password must have 2 upper case letter, a length of 8 letters minimun a number and a special character"
@@ -220,7 +223,7 @@ class LandingPage extends Component {
           value={password}
         />
         <TextField
-          className="md-cell md-cell--bottom"
+          className="landing-container__text-field"
           id="confPassword"
           label="Confirm Password *"
           lineDirection="center"
@@ -269,14 +272,20 @@ class LandingPage extends Component {
   render() {
     const { isLogging } = this.state;
     return (
-      <section>
-        <h1>Welcome to your pokedex online</h1>
+      <section className="landing-container">
+        <h1 className="landing-container__title">
+          Welcome to your pokedex online
+        </h1>
         {
           isLogging
             ? this.renderLogging()
             : this.renderRegister()
         }
-        <a href="" onClick={this.handleSwitchClick}>
+        <a
+          className="landing-container__switch"
+          href=""
+          onClick={this.handleSwitchClick}
+        >
           {
             isLogging
               ? <span>Register here</span>
