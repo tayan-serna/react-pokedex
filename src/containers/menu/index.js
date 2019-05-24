@@ -144,10 +144,11 @@ class Menu extends Component {
           actions={actions}
           title="My Profile"
           width={360}
+          className="dialog-container"
         >
           <div>
             <TextField
-              className="md-cell md-cell--bottom"
+              className="dialog-container__text-field"
               id="name"
               label="Trainer Name"
               lineDirection="center"
@@ -155,7 +156,7 @@ class Menu extends Component {
               value={name}
             />
             <TextField
-              className="md-cell md-cell--bottom"
+              className="dialog-container__text-field"
               id="email"
               label="Email"
               error={emailError}
@@ -167,7 +168,7 @@ class Menu extends Component {
               value={email}
             />
             <TextField
-              className="md-cell md-cell--bottom"
+              className="dialog-container__text-field"
               id="password"
               error={weakPass}
               errorText="Password must have 2 upper case letter, a length of 8 letters minimun a number and a special character"

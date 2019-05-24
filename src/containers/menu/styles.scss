@@ -5,8 +5,13 @@
   background-color: $color-light-red;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   &__title, .md-btn {
     color: $color-black;
+  }
+
+  &__title {
+    margin: 0;
   }
 }
