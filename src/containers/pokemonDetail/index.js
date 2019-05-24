@@ -65,6 +65,18 @@ const PokemonDetail = (props) => {
     return <div>Something went wrong :(</div>
   }
 
+  const renderImages = () => Object
+    .keys(pokemon.data.sprites)
+    .filter((sprite) => pokemon.data.sprites[sprite])
+    .map((sprite, key) => (
+      <img
+        alt={pokemon.data.name}
+        key={key}
+        className="pokemon-detail-container__image"
+        src={pokemon.data.sprites[sprite]}
+      />
+    ));
+
   return (
     <section>
       <Menu />
@@ -73,11 +85,7 @@ const PokemonDetail = (props) => {
           {pokemon.data.name} #{pokemon.data.id}
         </h2>
         <div className="pokemon-detail-container__image-container">
-          <img
-            alt={pokemon.data.name}
-            className="pokemon-detail-container__image"
-            src={pokemon.data.sprites.front_default}
-          />
+          {renderImages()}
         </div>
         <div className="pokemon-detail-container__details">
           <div className="pokemon-detail-container__details-item">
@@ -110,12 +118,12 @@ const PokemonDetail = (props) => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="pokemon-evolution-container">
         {
           getEvolutionChain(pokemon.evolution_chain).length
             ? (
               <Fragment>
-                <h1> Evolution Chain </h1>
+                <h2 className="pokemon-evolution-container__title"> Evolution Chain </h2>
                 {getEvolutionChain(pokemon.evolution_chain).map(pokemon => (
                   <div key={pokemon.id}>{pokemon.name}</div>
                 ))}
