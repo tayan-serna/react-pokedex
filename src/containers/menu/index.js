@@ -6,7 +6,7 @@ import { Button, DialogContainer, TextField } from 'react-md';
 import { withRouter } from "react-router";
 
 // @utils
-import { validateEmail } from '../../utils';
+import { validateEmail, validateStrongPass } from '../../utils';
 
 // @actions
 import { logout, editUser } from '../../actions/users';
@@ -20,7 +20,8 @@ class Menu extends Component {
     passwordChanged: false,
     name: this.props.loggedUser.name,
     nameChanged: false,
-    emailError: false
+    emailError: false,
+    weakPass: false
   };
 
   handleLogout = () => {
@@ -72,6 +73,13 @@ class Menu extends Component {
     });
   }
 
+  strongPassValidator = () => {
+    const { password } = this.state;
+    this.setState({
+      weakPass: !validateStrongPass(password)
+    });
+  }
+
   render() {
     const { loggedUser, history } = this.props;
     const {
@@ -79,7 +87,8 @@ class Menu extends Component {
       name,
       email,
       password,
-      emailError
+      emailError,
+      weakPass
     } = this.state;
 
     const actions = [];
@@ -87,7 +96,7 @@ class Menu extends Component {
     actions.push(
       <Button
         flat
-        disabled={emailError}
+        disabled={emailError || weakPass}
         primary
         onClick={this.onConfirm}
       >
@@ -153,10 +162,12 @@ class Menu extends Component {
             <TextField
               className="md-cell md-cell--bottom"
               id="password"
+              error={weakPass}
+              errorText="Password must have 2 upper case letter, a length of 8 letters minimun a number and a special character"
               label="New Password"
               lineDirection="center"
               onChange={(value) => this.handleChange('password', value)}
-              onBlur={this.passConfirmation}
+              onBlur={this.strongPassValidator}
               type="password"
               value={password}
             />
