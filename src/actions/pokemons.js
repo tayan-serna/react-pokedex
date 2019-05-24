@@ -28,18 +28,17 @@ const evolveChainTree = async (evolves_to, species) => {
   return evolutions
 };
 
-export const getPokemons = () => dispatch => axios
+export const getPokemons = page => dispatch => axios
   .get(
     'https://pokeapi.co/api/v2/pokemon',
     {
       params: {
-        limit: 50
+        limit: 50,
+        offset: page * 50
       }
     }).then(({
       data: {
         count,
-        next,
-        previous,
         results
       }
     }) => {
@@ -51,7 +50,10 @@ export const getPokemons = () => dispatch => axios
       )).then((pokemons) => {
         dispatch({
           type: GET_POKEMONS,
-          payload: pokemons
+          payload: {
+            pokemons,
+            count
+          }
         });
       })
     });

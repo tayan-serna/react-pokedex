@@ -8,6 +8,7 @@ import {
   CardText,
   TextField
 } from 'react-md';
+import InfiniteScroll from 'react-infinite-scroller';
 
 // @componets
 import Menu from '../menu';
@@ -28,13 +29,19 @@ class PokemonList extends Component {
       // history.push('/');
     }
     if (!pokemons.pokemonList.length) {
-      getPokemons();
+      getPokemons(0);
     }
   }
 
   handleFilter = (value) => {
     const { filterPokemons } = this.props;
     filterPokemons(value);
+  }
+
+  handleLoadMore = (page) => {
+    const { getPokemons } = this.props;
+    console.log(page);
+    getPokemons(page)
   }
 
   render() {
@@ -53,43 +60,56 @@ class PokemonList extends Component {
             onChange={value => this.handleFilter(value)}
           />
         </div>
-        <ul
-          className="pokemon-list-container__pokemon-card-container"
-        >
-          {
-            pokemons.pokemonListFiltered.map(pokemon => (
-              <Card
-                key={pokemon.id}
-                className="pokemon-list-container__pokemon-card"
-                onClick={() => { history.push(`pokemon/${pokemon.id}`)}}
+        {
+          pokemons.pokemonList.length
+            ? (
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={this.handleLoadMore}
+                hasMore={pokemons.pokemonList.length <= pokemons.pokemonCount}
+                loader={<div className="loader" key={0}>Loading ...</div>}
               >
-                <CardTitle
-                  className="pokemon-list-container__pokemon-card-title"
-                  title={`${pokemon.name} #${pokemon.id}`}
-                />
-                <CardText
-                  className="pokemon-list-container__pokemon-card-body"
+                <ul
+                  className="pokemon-list-container__pokemon-card-container"
                 >
-                  <img
-                    alt={pokemon.name}
-                    className="pokemon-list-container__pokemon-card-image"
-                    src={pokemon.sprites.front_default}
-                  />
-                  <div className="pokemon-list-container__pokemon-card-type-container">
-                    {pokemon.types.map(type => (
-                      <span
-                        className="pokemon-list-container__pokemon-card-type"
-                        key={type.slot}
+                  {
+                    pokemons.pokemonListFiltered.map(pokemon => (
+                      <Card
+                        key={pokemon.id}
+                        className="pokemon-list-container__pokemon-card"
+                        onClick={() => { history.push(`pokemon/${pokemon.id}`)}}
                       >
-                        {type.type.name}
-                      </span>
-                    ))}
-                  </div>
-                </CardText>
-              </Card>
-            ))
-          }
-        </ul>
+                        <CardTitle
+                          className="pokemon-list-container__pokemon-card-title"
+                          title={`${pokemon.name} #${pokemon.id}`}
+                        />
+                        <CardText
+                          className="pokemon-list-container__pokemon-card-body"
+                        >
+                          <img
+                            alt={pokemon.name}
+                            className="pokemon-list-container__pokemon-card-image"
+                            src={pokemon.sprites.front_default}
+                          />
+                          <div className="pokemon-list-container__pokemon-card-type-container">
+                            {pokemon.types.map(type => (
+                              <span
+                                className="pokemon-list-container__pokemon-card-type"
+                                key={type.slot}
+                              >
+                                {type.type.name}
+                              </span>
+                            ))}
+                          </div>
+                        </CardText>
+                      </Card>
+                    ))
+                  }
+                </ul>
+              </InfiniteScroll>
+            )
+            : null
+        }
       </section>
     );
   }

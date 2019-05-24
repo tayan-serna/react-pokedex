@@ -9,6 +9,7 @@ import {
 const initialState = {
   pokemonList: [],
   pokemonListFiltered: [],
+  pokemonCount: 0,
   pokemon: {
     loading: false,
     error: false,
@@ -24,12 +25,13 @@ function pokemonsReducer (state = initialState, action) {
         ...state,
         pokemonList: [
           ...state.pokemonList,
-          ...action.payload
+          ...action.payload.pokemons
         ],
         pokemonListFiltered: [
           ...state.pokemonList,
-          ...action.payload
-        ]
+          ...action.payload.pokemons
+        ],
+        pokemonCount: action.payload.count
       };
     case GET_POKEMON_BY_ID_REQUEST:
       return {
