@@ -11,10 +11,11 @@
     text-transform: uppercase;
     font-weight: bold;
     text-decoration: underline;
+    font-family: 'pokemon', Fallback, sans-serif;
   }
 
   &__image-container {
-    border: 1px solid;
+    border: 2px solid;
     padding: $space-separation;
     border-radius: 20px;
     text-align: center;
@@ -67,5 +68,14 @@
   &__title {
     font-weight: bold;
     text-decoration: underline;
+    font-family: 'pokemon', Fallback, sans-serif;
+  }
+
+  &__evolution-list {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
   }
 }

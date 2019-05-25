@@ -2,9 +2,11 @@
 import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { CircularProgress } from 'react-md';
 
 // @components
 import Menu from '../menu';
+import Pokemon from '../../components/pokemonCard';
 
 // @actions
 import { getPokemonById } from '../../actions/pokemons';
@@ -16,39 +18,47 @@ const PokemonDetail = (props) => {
   const [pokemon, setPokemon] = useState({
     ...props.pokemon
   });
+  const [currentId, setCurrentId] = useState(parseInt(props.match.params.id));
   const [isLoadPokemon, setIsLoadPokemon] = useState(false);
-  const parsedId = parseInt(props.match.params.id);
 
-  let ref = useRef({ ...pokemon });
-  let hasPokemonChanged = JSON.stringify(ref.current) !== JSON.stringify(props.pokemon);
+  let pokemonRef = useRef({ ...pokemon });
+  let urlRef = useRef(currentId);
+  let hasPokemonChanged = JSON.stringify(pokemonRef.current) !== JSON.stringify(props.pokemon);
+  let hasUrlChanged = urlRef.current !== parseInt(props.match.params.id);
 
   useEffect(() => {
     if (!props.loggedUser.logged) {
-      // return props.history.push('/');
+      return props.history.push('/');
     }
     if (hasPokemonChanged) {
-      ref.current = { ...props.pokemon };
+      pokemonRef.current = { ...props.pokemon };
       setPokemon({
         ...props.pokemon
       })
     }
 
-    if (pokemon.data.id !== parsedId && !pokemon.loading && !isLoadPokemon) {
-      setIsLoadPokemon(true)
-      props.getPokemonById(parsedId);
+    if (hasUrlChanged) {
+      setCurrentId(parseInt(props.match.params.id));
+      setIsLoadPokemon(false);
+    }
+
+    if (pokemon.data.id !== currentId && !pokemon.loading && !isLoadPokemon) {
+      setIsLoadPokemon(true);
+      props.getPokemonById(currentId);
     }
   }, [
       hasPokemonChanged,
-      parsedId,
+      currentId,
       props,
       props.pokemon,
       pokemon.data.id,
       pokemon.loading,
-      isLoadPokemon
+      isLoadPokemon,
+      hasUrlChanged
   ]);
 
   if (pokemon.loading || !pokemon.data.id) {
-    return (<div>loading...</div>)
+    return (<CircularProgress id="details-loader"/>)
   }
 
   if (pokemon.error) {
@@ -113,10 +123,18 @@ const PokemonDetail = (props) => {
           pokemon.evolution_chain.length
             ? (
               <Fragment>
-                <h2 className="pokemon-evolution-container__title"> Evolution Chain </h2>
-                {pokemon.evolution_chain.map(pokemon => (
-                  <div key={pokemon.id}>{pokemon.name}</div>
-                ))}
+                <h2
+                  className="pokemon-evolution-container__title"
+                >
+                  Evolution Chain
+                </h2>
+                <div
+                  className="pokemon-evolution-container__evolution-list"
+                >
+                  {pokemon.evolution_chain.map(poke => (
+                    <Pokemon key={poke.id} pokemon={poke} history={props.history}/>
+                  ))}
+                </div>
               </Fragment>
             )
             : null

@@ -2,16 +2,24 @@
 
 .menu-container {
   width: 100%;
-  background-color: $color-light-red;
+  background-color: $color-dark-blue;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 70px;
 
   &__title, .md-btn {
-    color: $color-black;
+    color: $color-white;
   }
 
   &__title {
     margin: 0;
+    font-family: 'pokemon', Fallback, sans-serif;
+  }
+}
+
+.dialog-container {
+  &__title {
+    font-family: 'pokemon', Fallback, sans-serif;
   }
 }

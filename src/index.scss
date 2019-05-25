@@ -2,7 +2,16 @@
 
 @include react-md-everything;
 
+@font-face {
+  font-family: 'pokemon';
+  src: url('./assets/fonts/Pokemon\ GB.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
+
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'pokemon', Fallback, sans-serif;
+}
+
+.md-floating-label {
+  line-height: 2;
 }

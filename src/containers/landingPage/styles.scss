@@ -27,6 +27,8 @@
 
   &__title {
     color: $color-black;
+    font-family: 'pokemon', Fallback, sans-serif;
+    width: 80%;
   }
 
   &__log-in, &__register {

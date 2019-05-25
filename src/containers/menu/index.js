@@ -145,6 +145,7 @@ class Menu extends Component {
           title="My Profile"
           width={360}
           className="dialog-container"
+          titleClassName="dialog-container__title"
         >
           <div>
             <TextField

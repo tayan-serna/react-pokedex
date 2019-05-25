@@ -2,16 +2,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {
-  Card,
-  CardTitle,
-  CardText,
-  TextField
-} from 'react-md';
+import { TextField, CircularProgress } from 'react-md';
 import InfiniteScroll from 'react-infinite-scroller';
 
 // @componets
 import Menu from '../menu';
+import Pokemon from '../../components/pokemonCard';
 
 // @actions
 import {
@@ -23,19 +19,29 @@ import {
 import './styles.scss';
 
 class PokemonList extends Component {
+  state = {
+    filterValue: ''
+  };
+
   componentDidMount() {
-    const { pokemons, getPokemons, loggedUser, history } = this.props;
+    const {
+      pokemons,
+      getPokemons,
+      loggedUser,
+      history
+    } = this.props;
     if (!loggedUser.logged) {
-      // history.push('/');
+      history.push('/');
     }
     if (!pokemons.pokemonList.length) {
       getPokemons(0);
     }
   }
 
-  handleFilter = (value) => {
+  handleFilter = (filterValue) => {
     const { filterPokemons } = this.props;
-    filterPokemons(value);
+    this.setState({ filterValue })
+    filterPokemons(filterValue);
   }
 
   handleLoadMore = (page) => {
@@ -45,6 +51,35 @@ class PokemonList extends Component {
 
   render() {
     const { history, pokemons } = this.props;
+    const { filterValue } = this.state;
+
+    const renderListByFilter = () => {
+      if (!pokemons.pokemonListFiltered.length) {
+        return (
+          <div
+            className="pokemon-list-container__no-pokemons"
+          >
+            Not pokemons found
+          </div>
+        );
+      }
+      return (
+        <ul
+          className="pokemon-list-container__pokemon-card-container"
+        >
+          {
+            pokemons.pokemonListFiltered.map(pokemon => (
+              <Pokemon
+                key={pokemon.id}
+                pokemon={pokemon}
+                history={history}
+              />
+            ))
+          }
+        </ul>
+      );
+    };
+
     return (
       <section className="pokemon-list-container">
         <Menu />
@@ -57,51 +92,33 @@ class PokemonList extends Component {
             label="search"
             lineDirection="center"
             onChange={value => this.handleFilter(value)}
+            value={filterValue}
           />
         </div>
         {
-          pokemons.pokemonList.length
+          filterValue && renderListByFilter()
+        }
+        {
+          pokemons.pokemonList.length && !filterValue
             ? (
               <InfiniteScroll
                 pageStart={0}
                 loadMore={this.handleLoadMore}
                 hasMore={pokemons.pokemonList.length <= pokemons.pokemonCount}
-                loader={<div className="loader" key={0}>Loading ...</div>}
+                loader={
+                  <CircularProgress key={0} id="pokemon-loader" />
+                }
               >
                 <ul
                   className="pokemon-list-container__pokemon-card-container"
                 >
                   {
                     pokemons.pokemonListFiltered.map(pokemon => (
-                      <Card
+                      <Pokemon
                         key={pokemon.id}
-                        className="pokemon-list-container__pokemon-card"
-                        onClick={() => { history.push(`pokemon/${pokemon.id}`)}}
-                      >
-                        <CardTitle
-                          className="pokemon-list-container__pokemon-card-title"
-                          title={`${pokemon.name} #${pokemon.id}`}
-                        />
-                        <CardText
-                          className="pokemon-list-container__pokemon-card-body"
-                        >
-                          <img
-                            alt={pokemon.name}
-                            className="pokemon-list-container__pokemon-card-image"
-                            src={pokemon.sprites.front_default}
-                          />
-                          <div className="pokemon-list-container__pokemon-card-type-container">
-                            {pokemon.types.map(type => (
-                              <span
-                                className="pokemon-list-container__pokemon-card-type"
-                                key={type.slot}
-                              >
-                                {type.type.name}
-                              </span>
-                            ))}
-                          </div>
-                        </CardText>
-                      </Card>
+                        pokemon={pokemon}
+                        history={history}
+                      />
                     ))
                   }
                 </ul>

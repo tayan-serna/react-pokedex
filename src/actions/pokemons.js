@@ -11,12 +11,19 @@ import {
 const evolveChainTreePromises = (evolves_to, species, promises = []) => {
   if (!species.name) { return };
   if (!evolves_to.length) {
-    promises.push(axios.get(species.url).then(result => result.data))
+    promises.push(
+      axios.get(
+        species.url.replace('pokemon-species', 'pokemon')
+      ).then(result => result.data))
   }
 
   evolves_to.forEach((evolve) => {
-    promises.push(axios.get(species.url).then(result => result.data))
-    evolveChainTreePromises(evolve.evolves_to, evolve.species, promises)
+    promises.push(
+      axios.get(
+        species.url.replace('pokemon-species', 'pokemon')
+      ).then(result => result.data)
+    );
+    evolveChainTreePromises(evolve.evolves_to, evolve.species, promises);
   });
 
   return promises;
@@ -74,17 +81,26 @@ export const getPokemonById = id => dispatch => {
               species
             }
           }
-        }) => {
-          return axios.all(evolveChainTreePromises(evolves_to, species))
-        })
+        }) => axios.all(evolveChainTreePromises(evolves_to, species)))
       )
   ])
   .then(axios.spread((pokemonRes, evolutionRes) => {
+    const evolution_chain = [];
+    const map = new Map();
+    for (const pokemon of evolutionRes) {
+        if(!map.has(pokemon.id) && pokemon.id !== id){
+            map.set(pokemon.id, true);
+            evolution_chain.push({
+                ...pokemon
+            });
+        }
+    }
+
     dispatch({
       type: GET_POKEMON_BY_ID_SUCCESS,
       payload: {
         pokemon: pokemonRes.data,
-        evolution_chain: evolutionRes.filter(pokemon => pokemon.id !== id)
+        evolution_chain
       }
     });
   }))
