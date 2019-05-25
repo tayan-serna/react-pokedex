@@ -7,7 +7,7 @@ import {
   EDIT_USER
 } from '../constants';
 
-const initialState = {
+export const initialState = {
   registeredUsers: [{
     email: 'asd@asd.com',
     password: '123',
