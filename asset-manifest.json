@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/tayan-serna/react-pokedex/static/css/main.b02004c2.chunk.css",
+    "main.js": "/tayan-serna/react-pokedex/static/js/main.38db0757.chunk.js",
+    "main.js.map": "/tayan-serna/react-pokedex/static/js/main.38db0757.chunk.js.map",
+    "runtime~main.js": "/tayan-serna/react-pokedex/static/js/runtime~main.5b0407bf.js",
+    "runtime~main.js.map": "/tayan-serna/react-pokedex/static/js/runtime~main.5b0407bf.js.map",
+    "static/css/2.764ccc25.chunk.css": "/tayan-serna/react-pokedex/static/css/2.764ccc25.chunk.css",
+    "static/js/2.f020e76d.chunk.js": "/tayan-serna/react-pokedex/static/js/2.f020e76d.chunk.js",
+    "static/js/2.f020e76d.chunk.js.map": "/tayan-serna/react-pokedex/static/js/2.f020e76d.chunk.js.map",
+    "index.html": "/tayan-serna/react-pokedex/index.html",
+    "precache-manifest.bcc2cc3769b5958c68e8e1c192a77038.js": "/tayan-serna/react-pokedex/precache-manifest.bcc2cc3769b5958c68e8e1c192a77038.js",
+    "service-worker.js": "/tayan-serna/react-pokedex/service-worker.js",
+    "static/css/2.764ccc25.chunk.css.map": "/tayan-serna/react-pokedex/static/css/2.764ccc25.chunk.css.map",
+    "static/css/main.b02004c2.chunk.css.map": "/tayan-serna/react-pokedex/static/css/main.b02004c2.chunk.css.map",
+    "static/media/index.scss": "/tayan-serna/react-pokedex/static/media/Pokemon GB.831e1f4d.ttf",
+    "static/media/styles.scss": "/tayan-serna/react-pokedex/static/media/pokeball.43edd5aa.png"
+  }
+}
