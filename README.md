@@ -9,9 +9,6 @@ You must follow the next instructions to fully succed the installation of the pr
 
 If there will appear an error about `node-sass` you have to make sure that you have a `node` version that `node-sass` support, here there is a link to take care of it [node-sass page](https://github.com/sass/node-sass)
 
-## Execution
-If you don't want to download and install all this app, you just have to go to the [live example page](https://tayan-serna.github.io/react-pokedex/), where is a functional version of the project
-
 ## Available Scripts
 
 In the project directory, you can run:
